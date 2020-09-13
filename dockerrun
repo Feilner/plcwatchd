@@ -1,0 +1,8 @@
+#!/bin/bash
+[ -z "${PUSHOVER_KEY}" ] && echo "PUSHOVER_KEY is not set" && exit 1
+[ -z "${PUSHOVER_TOKEN}" ] && echo "PUSHOVER_TOKEN is not set" && exit 1
+[ -z "${PUSHOVER_DEVICE}" ] && echo "PUSHOVER_DEVICE is not set" && exit 1
+[ -z "${PLC_IP}" ] && echo "PLC_IP is not set" && exit 1
+
+plcwatchd -k "${PUSHOVER_KEY}" -t "${PUSHOVER_TOKEN}" -u "${PUSHOVER_DEVICE}" -i "${PLC_IP}"  -l /dev/stdout
+

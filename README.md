@@ -32,3 +32,20 @@ or
 * ps aux | grep plcwatchd
 
 
+
+# Docker
+There is also a docker image avaiable
+docker run -it --rm -e PUSHOVER_KEY=xxxxxxxx -e PUSHOVER_TOKEN=xxxxxxxx -e PUSHOVER_DEVICE=xxxxxxxx -e PLC_IP=192.168.178.105  feilner/plcwatchd
+
+docker-compose.yml
+´´´
+  plcwatchd: 
+    image: feilner/plcwatchd
+    container_name: plcwatchd
+    restart: always
+    environment:
+    - PUSHOVER_KEY=xxxxxxxx
+    - PUSHOVER_TOKEN=xxxxxxxx
+    - PUSHOVER_DEVICE=xxxxxxxx
+    - PLC_IP=xxxxxxxx
+´´´

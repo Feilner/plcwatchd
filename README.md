@@ -42,27 +42,41 @@ or
 
 ## Docker
 
-There is also a docker image avaiable with the follwing environment variables:
+There is also a docker image:
+`docker pull feilner/plcwatchd`
 
-* `PUSHOVER_KEY` pushover.net user key
-* `PUSHOVER_TOKEN` pushover.net appliacation token
-* `PUSHOVER_DEVICE` pushover.net device list e.g. dev1,dev2
-* `PLC_IP` address of the plc
+### Environment variables
+* `PUSHOVER_KEY` pushover.net user key (mandatory)
+* `PUSHOVER_TOKEN` pushover.net appliacation token (mandatory)
+* `PLC_IP` address of the plc (mandatory)
+* `CLI_ARGS` optional command line interface args to plcwatchd (optional)
 
-Run from command line:
+Optional arguments to plcwatchd can added by the optional CLI_ARGS
 ```
-docker run -it --rm -e PUSHOVER_KEY=xxxxxxxx -e PUSHOVER_TOKEN=xxxxxxxx -e PUSHOVER_DEVICE=xxxxxxxx -e PLC_IP=192.168.178.105  feilner/plcwatchd
+ -v    verbose
+ -p    polling rate of the PLC state in seconds, default 10
+ -c    retry - pushover.net retry parameter in seconds, default 60
+ -e    expire - pushover.net expire parameter in seconds, default 600
+ -u    user - pushover.net comma seprated device list e.g. "deviceOne,deviceTwo", default all devices
+ -r    rack - rack of the plc, default 0
+ -s    slot - slot of the plc, default 2
 ```
 
-Example docker-compose.yml:
+### Run from command line:
 ```
-  plcwatchd: 
+docker run -it --rm -e PUSHOVER_KEY=pushoverKey -e PUSHOVER_TOKEN=pushoverToken -e PLC_IP=plcIP -e CLI_ARGS "-u pushoverDeivce"  feilner/plcwatchd
+```
+
+### Example docker-compose.yml:
+```
+  plcwatchd:
     image: feilner/plcwatchd
     container_name: plcwatchd
     restart: always
     environment:
-    - PUSHOVER_KEY=xxxxxxxx
-    - PUSHOVER_TOKEN=xxxxxxxx
-    - PUSHOVER_DEVICE=xxxxxxxx
-    - PLC_IP=xxxxxxxx
+    - PUSHOVER_KEY=pushoverKey
+    - PUSHOVER_TOKEN=pushoverToken
+    - PLC_IP=plcIP
+    - CLI_ARGS="-u pushoverDeivce"
 ```
+
